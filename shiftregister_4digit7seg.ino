@@ -3,13 +3,18 @@
 #define SHIFT_PIN_DS   13 /* Data input PIN */
 #define SHIFT_PIN_STCP 12 /* Shift Register Storage PIN */
 #define SHIFT_PIN_SHCP 11 /* Shift Register Shift PIN */
-int test = 0; 
-int delayManual = 0;
+int sevenSegmentTimerTestValue = 0; 
+int sevenSegmentTimerDelayTest = 0;
 
 SevSegShift sevseg(SHIFT_PIN_DS, SHIFT_PIN_SHCP, SHIFT_PIN_STCP); //Instantiate a seven segment controller object (with Shift Register functionality)
 
-void setup() {
-  // put your setup code here, to run once:
+
+/* 
+IMPORTANT FUNCTION! PUT THIS IN SETUP! 
+INITIALIZES THE DISPLAY SO IT WORKS
+*/
+void initializeSevenSegmentDisplay()
+{
   byte numDigits = 4;
   byte digitPins[] = {8+2, 8+5, 8+6, 2}; // of ShiftRegister(s) | 8+x (2nd Register)
   byte segmentPins[] = {8+3, 8+7, 4, 6, 7, 8+4, 3,  5}; // of Shiftregister(s) | 8+x (2nd Register)
@@ -25,19 +30,20 @@ void setup() {
 
   sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments,
   updateWithDelays, leadingZeros, disableDecPoint);
-  test = 0;
-  delayManual = 0;
+  sevenSegmentTimerTestValue = 0;
+  sevenSegmentTimerDelayTest = 0;
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void sevenSegmentTimerTest()
+{
+
   sevseg.refreshDisplay();
 
-  if (delayManual == 10000) {
-    sevseg.setNumber(test++);
-    delayManual = 0;
+  if (sevenSegmentTimerDelayTest == 10000) {
+    sevseg.setNumber(sevenSegmentTimerTestValue++);
+    sevenSegmentTimerDelayTest = 0;
   }
   else {
-    delayManual++;
+    sevenSegmentTimerDelayTest++;
   }
 }
