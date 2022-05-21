@@ -1,6 +1,6 @@
 # CS-EE120B-Final-Project
 
-2048, by Joshua Candelaria
+Arduino-2048, by Joshua Candelaria
 
 ## Introduction
 
