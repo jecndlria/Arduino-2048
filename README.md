@@ -1,4 +1,4 @@
-# CS-EE120B-Final-Project
+# CS-EE120B-Final-Project Spring 2022
 
 Arduino-2048, by Joshua Candelaria
 
