@@ -1,4 +1,5 @@
-
+#ifndef LCD_H
+#define LCD_H
 #include <Adafruit_GFX.h>    // Core graphics library
 #include <Adafruit_ST7735.h> // Hardware-specific library for ST7735
 #include <Adafruit_ST7789.h> // Hardware-specific library for ST7789
@@ -24,10 +25,6 @@
 
 // Precomputed values are faster than ones calculated at runtime.
 Adafruit_ST7735 tft = Adafruit_ST7735(LCD_CS, LCD_DCA0, LCD_SDA, LCD_SCK, LCD_RESET);
-void initializeScreen()
-{
-  tft.initR(INITR_GREENTAB);   // initialize a ST7735S chip, green tab  //<----------------------Must Change Examples to this! 
-}
 short colorHelper(uint8_t r = 0, uint8_t g = 0, uint8_t b = 0) // pass in color constants!
 {
   r = map(r, 0, 255, 0, 31);
@@ -52,9 +49,15 @@ short colorLookupTable[12] =
   colorHelper(COLOR_2048_1024),
   colorHelper(COLOR_2048_2048)
 }; 
+void initializeScreen()
+{
+  tft.initR(INITR_GREENTAB);   // initialize a ST7735S chip, green tab  //<----------------------Must Change Examples to this! 
+  tft.fillScreen(colorHelper(COLOR_2048_0));
+  tft.setTextColor(ST7735_BLACK);
+}
 void testScreen()
 {
-    tft.fillScreen(ST7735_BLACK);
+    //tft.fillScreen(ST7735_BLACK);
     tft.fillRect(0, 0, 32, 32, colorLookupTable[1]);
     tft.fillRect(32, 0, 32, 32, colorLookupTable[2]);
     tft.fillRect(64, 0, 32, 32, colorLookupTable[3]);
@@ -92,3 +95,4 @@ void testScreen()
     tft.print("2048");
     tft.fillRect(96, 64, 32, 32, colorLookupTable[0]);
 }
+#endif

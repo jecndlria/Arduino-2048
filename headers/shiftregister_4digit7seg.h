@@ -1,3 +1,5 @@
+#ifndef SHIFT_H
+#define SHIFT_H
 #include "SevSegShift.h"
 
 #define SHIFT_PIN_DS   13 /* Data input PIN */
@@ -47,3 +49,4 @@ void sevenSegmentTimerTest()
     sevenSegmentTimerDelayTest++;
   }
 }
+#endif

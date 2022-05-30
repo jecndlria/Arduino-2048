@@ -1,12 +1,19 @@
-void initializeSevenSegmentDisplay();   // DEFINED IN shiftregister_4digit7seg.ino
-void sevenSegmentTimerTest();           // DEFINED IN shiftregister_4digit7seg.ino
-void initializeScreen();                // DEFINED IN lcd.ino
-void testScreen();                      // DEFINED IN lcd.ino
-void initializeGestureSensor();         // DEFINED IN gesture.ino
-void testGestureSensor();               // DEFINED IN gesture.ino
-void initializeGame();                  // DEFINED IN game.ino
-void gameBoardDebug();                  // DEFINED IN game.ino
-
+//void initializeSevenSegmentDisplay();   // DEFINED IN shiftregister_4digit7seg.ino
+//void sevenSegmentTimerTest();           // DEFINED IN shiftregister_4digit7seg.ino
+//void initializeScreen();                // DEFINED IN lcd.ino
+//void testScreen();                      // DEFINED IN lcd.ino
+//void initializeGestureSensor();         // DEFINED IN gesture.ino
+//void testGestureSensor();               // DEFINED IN gesture.ino
+//void initializeGame();                  // DEFINED IN game.ino
+//void gameBoardDebug();                  // DEFINED IN game.ino
+#include "headers/button.h"
+#include "headers/buzzer.h"
+#include "headers/eeprom.h"
+#include "headers/game.h"
+#include "headers/gesture.h"
+#include "headers/joystick.h"
+#include "headers/lcd.h"
+#include "headers/shiftregister_4digit7seg.h"
 typedef struct task {
   int state;
   unsigned long period;
@@ -25,10 +32,11 @@ void setup()
     //initializeScreen();
     initializeSevenSegmentDisplay();   
     initializeScreen();
-    testScreen();
+    //testScreen();
     initializeGestureSensor();
     initializeGame();
     gameBoardDebug();
+    drawBoard();
 
     /*
     tasks[i].state = INIT0;
@@ -41,6 +49,8 @@ void setup()
     tasks[i].elapsedTime = 0;
     tasks[i].TickFct = &SM2_Tick;
     */
+
+    sevseg.setNumber(random(0, 100));
 }
 void loop()
 {
@@ -55,7 +65,7 @@ void loop()
         }
     }
     */
-    sevenSegmentTimerTest();
+    //sevenSegmentTimerTest();
     //testGestureSensor();
     //testScreen();
 }

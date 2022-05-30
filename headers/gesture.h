@@ -1,3 +1,5 @@
+#ifndef GESTURE_H
+#define GESTURE_H
 #include "Adafruit_APDS9960.h"
 
 Adafruit_APDS9960 apds;
@@ -21,3 +23,4 @@ void testGestureSensor()
     if(gesture == APDS9960_LEFT) Serial.println("LEFT\n");
     if(gesture == APDS9960_RIGHT) Serial.println("RIGHT\n");
 }
+#endif

@@ -1,3 +1,8 @@
+#ifndef GAME_H
+#define GAME_H
+#include "lcd.h"
+#include "gesture.h"
+//Adafruit_ST7735 tft = Adafruit_ST7735(LCD_CS, LCD_DCA0, LCD_SDA, LCD_SCK, LCD_RESET);
 int gameBoard[4][4] = 
 {
     {0, 0, 0, 0},
@@ -43,12 +48,21 @@ void initializeGame()
 {
     int coinflipLeft = random(0, 2);
     int randomLeftX = random(0, 2);
-    int randomLeftY = random(0, 5);
-
+    int randomLeftY = random(0, 2);
+    Serial.println("Random Left X: ");
+    Serial.println(randomLeftX);
+    Serial.println("Random Left Y: ");
+    Serial.println(randomLeftY);
+    Serial.print('\n');
     int coinflipRight = random(0, 2);
     int randomRightX = random(2, 4);
-    int randomRightY = random(0, 5);
+    int randomRightY = random(2, 4);
 
+    Serial.println("Random Right X: ");
+    Serial.println(randomRightX);
+    Serial.println("Random Right Y: ");
+    Serial.println(randomRightY);
+    Serial.print('\n');
     gameBoard[randomLeftX][randomLeftY] = coinflipLeft ? 4 : 2;
     gameBoard[randomRightX][randomRightY] = coinflipRight ? 4 : 2;
 }
@@ -65,3 +79,23 @@ void gameBoardDebug()
         Serial.print('\n');
     }
 }
+
+void drawBoard()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            tft.fillRect(32 * j, 32 * i, 32, 32, colorLookupTable[logBase2(gameBoard[i][j])]);
+            tft.setCursor(4 + 32*j, 16+32*i);
+            if (gameBoard[i][j] != 0) tft.print(gameBoard[i][j]);
+        }
+    }
+}
+
+void move()
+{
+    uint8_t gesture = apds.readGesture();
+    
+}
+#endif
