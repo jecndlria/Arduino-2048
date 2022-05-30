@@ -11,10 +11,8 @@ Arduino-2048, by Joshua Candelaria
 ## Hardware Components
 
 * Elegoo UNO R3 Microcontroller
-* Joystick Module (for input)
+* 4-digit seven segment display
 * Buttons (for switching modes, restarting/starting)
-* ST7735S 1.44" 128x128 LCD Display Screen
-* Sound Buzzer
 
 ## Basic Functionality
 
@@ -25,6 +23,7 @@ This is a single player game that is controlled by the joystick. The game begins
 * Two 74HC595 shift registers, which will be used to control the 4-digit seven segment display that shows the current score.
 * A 24C512 EEPROM, which will save the game/store the high score while the system is off.
 * An Adafruit APDS9960 Gesture Sensor, which will be used as an additional mode to give input to the game.
+* ST7735S 1.44" 128x128 LCD Display Screen
 
 ## Demo Videos
 
