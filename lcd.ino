@@ -9,6 +9,7 @@
 #define LCD_RESET 6
 #define LCD_CS 7
 
+#define COLOR_2048_0 205,193,180
 #define COLOR_2048_2 238,228,218
 #define COLOR_2048_4 237,224,200
 #define COLOR_2048_8 242,177,121
@@ -25,7 +26,7 @@
 Adafruit_ST7735 tft = Adafruit_ST7735(LCD_CS, LCD_DCA0, LCD_SDA, LCD_SCK, LCD_RESET);
 void initializeScreen()
 {
-  tft.initR(INITR_GREENTAB);   // initialize a ST7735S chip, black tab  //<----------------------Must Change Examples to this! 
+  tft.initR(INITR_GREENTAB);   // initialize a ST7735S chip, green tab  //<----------------------Must Change Examples to this! 
 }
 short colorHelper(uint8_t r = 0, uint8_t g = 0, uint8_t b = 0) // pass in color constants!
 {
@@ -36,8 +37,9 @@ short colorHelper(uint8_t r = 0, uint8_t g = 0, uint8_t b = 0) // pass in color 
 }
 
 // Precomputed values are faster than ones calculated at runtime.
-short colorLookupTable[11] = 
+short colorLookupTable[12] = 
 {
+  colorHelper(COLOR_2048_0),
   colorHelper(COLOR_2048_2),
   colorHelper(COLOR_2048_4),
   colorHelper(COLOR_2048_8),
@@ -53,10 +55,10 @@ short colorLookupTable[11] =
 void testScreen()
 {
     tft.fillScreen(ST7735_BLACK);
-    tft.fillRect(0, 0, 32, 32, colorLookupTable[0]);
-    tft.fillRect(32, 0, 32, 32, colorLookupTable[1]);
-    tft.fillRect(64, 0, 32, 32, colorLookupTable[2]);
-    tft.fillRect(96, 0, 32, 32, colorLookupTable[3]);
+    tft.fillRect(0, 0, 32, 32, colorLookupTable[1]);
+    tft.fillRect(32, 0, 32, 32, colorLookupTable[2]);
+    tft.fillRect(64, 0, 32, 32, colorLookupTable[3]);
+    tft.fillRect(96, 0, 32, 32, colorLookupTable[4]);
     tft.setCursor(4,16);
     tft.setTextColor(ST7735_BLACK);
     tft.setTextSize(1);
@@ -67,10 +69,10 @@ void testScreen()
     tft.print("8");
     tft.setCursor(4+96, 16);
     tft.print("16");
-    tft.fillRect(0, 32, 32, 32, colorLookupTable[4]);
-    tft.fillRect(32, 32, 32, 32, colorLookupTable[5]);
-    tft.fillRect(64,32,32,32,colorLookupTable[6]);
-    tft.fillRect(96,32,32,32,colorLookupTable[7]);
+    tft.fillRect(0, 32, 32, 32, colorLookupTable[5]);
+    tft.fillRect(32, 32, 32, 32, colorLookupTable[6]);
+    tft.fillRect(64,32,32,32,colorLookupTable[7]);
+    tft.fillRect(96,32,32,32,colorLookupTable[8]);
     tft.setCursor(4, 16+32);
     tft.print("32");
     tft.setCursor(4+32, 16+32);
@@ -79,13 +81,14 @@ void testScreen()
     tft.print("128");
     tft.setCursor(4+96, 16+32);
     tft.print("256");
-    tft.fillRect(0, 64, 32, 32, colorLookupTable[8]);
-    tft.fillRect(32,64, 32, 32, colorLookupTable[9]);
-    tft.fillRect(64,64,32,32, colorLookupTable[10]);
+    tft.fillRect(0, 64, 32, 32, colorLookupTable[9]);
+    tft.fillRect(32,64, 32, 32, colorLookupTable[10]);
+    tft.fillRect(64,64,32,32, colorLookupTable[11]);
     tft.setCursor(4,16+64);
     tft.print("512");
     tft.setCursor(4+32,16+64);
     tft.print("1024");
     tft.setCursor(4+64,16+64);
     tft.print("2048");
+    tft.fillRect(96, 64, 32, 32, colorLookupTable[0]);
 }
