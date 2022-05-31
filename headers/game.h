@@ -14,6 +14,7 @@ int gameBoard[4][4] =
 };
 
 int score = 0;
+bool populateBoardFlag = false;
 
 void swap(int &a, int &b)
 {
@@ -140,6 +141,14 @@ void moveUp()
             if (k != 3)
             {
                 swap(gameBoard[i][j], gameBoard[k++][j]);
+                clearBlock(i, j);
+            }
+        }
+        for (int i = 1; i < 4; i++)
+        {
+            if (gameBoard[i][j] == gameBoard[i-1][j])
+            {
+                gameBoard[i-1][j] *= 2;
                 clearBlock(i, j);
             }
         }
