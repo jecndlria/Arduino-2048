@@ -13,6 +13,8 @@ int gameBoard[4][4] =
     {0, 0, 0, 0}
 };
 
+int score = 0;
+
 void swap(int &a, int &b)
 {
     int c = a;
@@ -64,23 +66,13 @@ void initializeGame()
     int coinflipLeft = random(0, 2);
     int randomLeftX = random(0, 2);
     int randomLeftY = random(0, 2);
-    Serial.println("Random Left X: ");
-    Serial.println(randomLeftX);
-    Serial.println("Random Left Y: ");
-    Serial.println(randomLeftY);
-    Serial.print('\n');
+
     int coinflipRight = random(0, 2);
     int randomRightX = random(2, 4);
     int randomRightY = random(2, 4);
 
-    Serial.println("Random Right X: ");
-    Serial.println(randomRightX);
-    Serial.println("Random Right Y: ");
-    Serial.println(randomRightY);
-    Serial.print('\n');
-    // CHANGE THESE BACK!
-    gameBoard[randomLeftX][randomLeftY] = coinflipLeft ? 2 : 2;
-    gameBoard[randomRightX][randomRightY] = coinflipRight ? 2 : 2;
+    gameBoard[randomLeftX][randomLeftY] = coinflipLeft ? 4 : 2;
+    gameBoard[randomRightX][randomRightY] = coinflipRight ? 4 : 2;
 }
 
 void gameBoardDebug()
@@ -109,6 +101,19 @@ void drawBoard()
         }
     }
 }
+
+void populateBoard()
+{
+    uint8_t randomRow = random(0, 4);
+    uint8_t randomColumn = random(0, 4);
+    while (gameBoard[randomRow][randomColumn] != 0) 
+    {
+        randomRow = random(0, 4);
+        randomColumn = random(0, 4);
+    }
+    gameBoard[randomRow][randomColumn] = 2;
+}
+
 int findFurthestUp(int j)
 {
     for (int i = 0; i < 4; i++)
@@ -123,18 +128,18 @@ void moveUp()
     {
         for (int i = 1; i < 4; i++)
         {
-            int k = findFurthestUp(j);
-            if (k != 3)
+            if (gameBoard[i][j] == gameBoard[i-1][j])
             {
-                swap(gameBoard[i][j], gameBoard[k++][j]);
+                gameBoard[i-1][j] *= 2;
                 clearBlock(i, j);
             }
         }
         for (int i = 1; i < 4; i++)
         {
-            if (gameBoard[i][j] == gameBoard[i-1][j])
+            int k = findFurthestUp(j);
+            if (k != 3)
             {
-                gameBoard[i-1][j] *= 2;
+                swap(gameBoard[i][j], gameBoard[k++][j]);
                 clearBlock(i, j);
             }
         }
@@ -190,9 +195,9 @@ void moveRight()
 void checkMove()
 {
     uint8_t gesture = apds.readGesture();
-    if (gesture == APDS9960_UP) {Serial.println("UP"); moveUp(); drawBoard(); gameBoardDebug();}
-    if (gesture == APDS9960_DOWN) {Serial.println("DOWN"); moveDown(); drawBoard(); gameBoardDebug();}
-    if (gesture == APDS9960_LEFT) {Serial.println("LEFT"); moveLeft(); drawBoard(); gameBoardDebug(); }
-    if (gesture == APDS9960_RIGHT) {Serial.println("RIGHT"); moveRight(); drawBoard(); gameBoardDebug();}
+    if (gesture == APDS9960_UP) {Serial.println("UP"); moveUp(); populateBoard(); drawBoard(); /*gameBoardDebug();*/}
+    if (gesture == APDS9960_DOWN) {Serial.println("DOWN"); moveDown(); populateBoard(); drawBoard();  /*gameBoardDebug();*/}
+    if (gesture == APDS9960_LEFT) {Serial.println("LEFT"); moveLeft(); populateBoard(); drawBoard(); /*gameBoardDebug();*/ }
+    if (gesture == APDS9960_RIGHT) {Serial.println("RIGHT"); moveRight(); populateBoard(); drawBoard(); /*gameBoardDebug();*/}
 }
 #endif

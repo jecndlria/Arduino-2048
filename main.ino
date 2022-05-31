@@ -69,5 +69,5 @@ void loop()
     //testGestureSensor();
     //testScreen();
     if (digitalRead(8) == LOW) { checkMove(); sevseg.blank();}
-    else { sevseg.setNumber(2048); sevseg.refreshDisplay();}
+    else { sevseg.setNumber(score); sevseg.refreshDisplay();}
 }
