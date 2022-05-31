@@ -155,15 +155,41 @@ void moveUp()
     }
 }
 
+int findFurthestDown(int j)
+{
+    for (int i = 3; i >= 0; i--)
+    {
+        if (gameBoard[i][j] == 0) return i;
+    }
+    return 0;
+}
+
 void moveDown()
 {
     for (int j = 0; j < 4; j++)
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 2; i >= 0; i--)
         {
-            if (gameBoard[i+1][j] == 0) 
+            if (gameBoard[i][j] == gameBoard[i+1][j])
             {
-                swap(gameBoard[i][j], gameBoard[i+1][j]); 
+                gameBoard[i+1][j] *= 2;
+                clearBlock(i, j);
+            }
+        }
+        for (int i = 2; i >= 0; i--)
+        {
+            int k = findFurthestDown(j);
+            if (k != 0)
+            {
+                swap(gameBoard[i][j], gameBoard[k--][j]);
+                clearBlock(i, j);
+            }
+        }
+        for (int i = 2; i >= 0; i--)
+        {
+            if (gameBoard[i][j] == gameBoard[i+1][j])
+            {
+                gameBoard[i+1][j] *= 2;
                 clearBlock(i, j);
             }
         }
