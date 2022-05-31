@@ -200,16 +200,44 @@ void moveDown()
     }
 }
 
+int findFurthestLeft(int i)
+{
+    for (int j = 0; j < 4; j++)
+    {
+        if (gameBoard[i][j] == 0) return j;
+    }
+    return 3;
+}
+
 void moveLeft()
 { // j-1
     for (int i = 0; i < 4; i++)
     {
-        for (int j = 3; j > 0; j--)
+        for (int j = 1; j < 4; j++)
         {
-            if (gameBoard[i][j-1] == 0) 
+            if (gameBoard[i][j] == gameBoard[i][j-1])
             {
-                swap(gameBoard[i][j], gameBoard[i][j-1]);
+                gameBoard[i][j-1] *= 2;
                 clearBlock(i, j);
+                score += gameBoard[i][j-1]; 
+            }
+        }
+        for (int j = 1; j < 4; j++)
+        {
+            int k = findFurthestLeft(i);
+            if (k != 3)
+            {
+                swap(gameBoard[i][j], gameBoard[i][k++]);
+                clearBlock(i, j);
+            }
+        }
+        for (int j = 1; j < 4; j++)
+        {
+            if (gameBoard[i][j] == gameBoard[i][j-1])
+            {
+                gameBoard[i][j-1] *= 2;
+                clearBlock(i, j);
+                score += gameBoard[i][j-1]; 
             }
         }
     }
