@@ -37,7 +37,7 @@ void setup()
     initializeGame();
     gameBoardDebug();
     drawBoard();
-
+    pinMode(8, INPUT);
     /*
     tasks[i].state = INIT0;
     tasks[i].period = 500;
@@ -50,7 +50,7 @@ void setup()
     tasks[i].TickFct = &SM2_Tick;
     */
 
-    sevseg.setNumber(random(0, 100));
+    //sevseg.setNumber(random(0, 100));
 }
 void loop()
 {
@@ -68,4 +68,6 @@ void loop()
     //sevenSegmentTimerTest();
     //testGestureSensor();
     //testScreen();
+    if (digitalRead(8) == LOW) { checkMove(); sevseg.blank();}
+    else { sevseg.setNumber(2048); sevseg.refreshDisplay();}
 }

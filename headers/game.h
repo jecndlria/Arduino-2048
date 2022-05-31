@@ -2,6 +2,8 @@
 #define GAME_H
 #include "lcd.h"
 #include "gesture.h"
+#include "shiftregister_4digit7seg.h"
+
 //Adafruit_ST7735 tft = Adafruit_ST7735(LCD_CS, LCD_DCA0, LCD_SDA, LCD_SCK, LCD_RESET);
 int gameBoard[4][4] = 
 {
@@ -10,6 +12,19 @@ int gameBoard[4][4] =
     {0, 0, 0, 0},
     {0, 0, 0, 0}
 };
+
+void swap(int &a, int &b)
+{
+    int c = a;
+    a = b;
+    b = c;
+}
+
+void clearBlock(int i, int j)
+{
+    gameBoard[i][j] = 0;
+    tft.fillRect(32 * j, 32 * i, 32, 32, colorLookupTable[0]);
+}
 
 // "Why do you need this?"
 // 1. The version of log base 2 in the STL uses float values. I don't want to introduce that inaccuracy.
@@ -63,8 +78,9 @@ void initializeGame()
     Serial.println("Random Right Y: ");
     Serial.println(randomRightY);
     Serial.print('\n');
-    gameBoard[randomLeftX][randomLeftY] = coinflipLeft ? 4 : 2;
-    gameBoard[randomRightX][randomRightY] = coinflipRight ? 4 : 2;
+    // CHANGE THESE BACK!
+    gameBoard[randomLeftX][randomLeftY] = coinflipLeft ? 2 : 2;
+    gameBoard[randomRightX][randomRightY] = coinflipRight ? 2 : 2;
 }
 
 void gameBoardDebug()
@@ -78,6 +94,7 @@ void gameBoardDebug()
         }
         Serial.print('\n');
     }
+    Serial.print('\n');
 }
 
 void drawBoard()
@@ -92,10 +109,90 @@ void drawBoard()
         }
     }
 }
+int findFurthestUp(int j)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (gameBoard[i][j] == 0) return i;
+    }
+    return 3;
+}
+void moveUp()
+{
+    for (int j = 3; j >= 0; j--)
+    {
+        for (int i = 1; i < 4; i++)
+        {
+            int k = findFurthestUp(j);
+            if (k != 3)
+            {
+                swap(gameBoard[i][j], gameBoard[k++][j]);
+                clearBlock(i, j);
+            }
+        }
+        for (int i = 1; i < 4; i++)
+        {
+            if (gameBoard[i][j] == gameBoard[i-1][j])
+            {
+                gameBoard[i-1][j] *= 2;
+                clearBlock(i, j);
+            }
+        }
+    }
+}
 
-void move()
+void moveDown()
+{
+    for (int j = 0; j < 4; j++)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (gameBoard[i+1][j] == 0) 
+            {
+                swap(gameBoard[i][j], gameBoard[i+1][j]); 
+                clearBlock(i, j);
+            }
+        }
+    }
+}
+
+void moveLeft()
+{ // j-1
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 3; j > 0; j--)
+        {
+            if (gameBoard[i][j-1] == 0) 
+            {
+                swap(gameBoard[i][j], gameBoard[i][j-1]);
+                clearBlock(i, j);
+            }
+        }
+    }
+}
+
+void moveRight()
+{ // j+1
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (gameBoard[i][j+1] == 0) 
+            {
+                swap(gameBoard[i][j], gameBoard[i][j+1]);
+                clearBlock(i, j);
+            }
+        }
+    }
+
+}
+
+void checkMove()
 {
     uint8_t gesture = apds.readGesture();
-    
+    if (gesture == APDS9960_UP) {Serial.println("UP"); moveUp(); drawBoard(); gameBoardDebug();}
+    if (gesture == APDS9960_DOWN) {Serial.println("DOWN"); moveDown(); drawBoard(); gameBoardDebug();}
+    if (gesture == APDS9960_LEFT) {Serial.println("LEFT"); moveLeft(); drawBoard(); gameBoardDebug(); }
+    if (gesture == APDS9960_RIGHT) {Serial.println("RIGHT"); moveRight(); drawBoard(); gameBoardDebug();}
 }
 #endif
