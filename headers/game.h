@@ -243,16 +243,45 @@ void moveLeft()
     }
 }
 
+
+int findFurthestRight(int i)
+{
+    for (int j = 3; j >= 0; j--)
+    {
+        if (gameBoard[i][j] == 0) return j;
+    }
+    return 0;
+}
+
 void moveRight()
 { // j+1
     for (int i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 3; j++)
+        for (int j = 2; j >= 0; j--)
         {
-            if (gameBoard[i][j+1] == 0) 
+            if (gameBoard[i][j] == gameBoard[i][j+1])
             {
-                swap(gameBoard[i][j], gameBoard[i][j+1]);
+                gameBoard[i][j+1] *= 2;
                 clearBlock(i, j);
+                score += gameBoard[i][j+1];
+            }
+        }
+        for (int j = 2; j >= 0; j--)
+        {
+            int k = findFurthestRight(i);
+            if (k != 0)
+            {
+                swap(gameBoard[i][j], gameBoard[i][k--]);
+                clearBlock(i, j);
+            }
+        }
+        for (int j = 2; j >= 0; j--)
+        {
+            if (gameBoard[i][j] == gameBoard[i][j+1])
+            {
+                gameBoard[i][j+1] *= 2;
+                clearBlock(i, j);
+                score += gameBoard[i][j+1];
             }
         }
     }
