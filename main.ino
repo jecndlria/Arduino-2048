@@ -70,4 +70,5 @@ void loop()
     //testScreen();
     if (digitalRead(8) == LOW) { checkMove(); sevseg.blank();}
     else { sevseg.setNumber(score); sevseg.refreshDisplay();}
+    Serial.println(score);
 }

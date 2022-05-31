@@ -133,6 +133,7 @@ void moveUp()
             {
                 gameBoard[i-1][j] *= 2;
                 clearBlock(i, j);
+                score += gameBoard[i-1][j];
             }
         }
         for (int i = 1; i < 4; i++)
@@ -150,6 +151,7 @@ void moveUp()
             {
                 gameBoard[i-1][j] *= 2;
                 clearBlock(i, j);
+                score += gameBoard[i-1][j];
             }
         }
     }
@@ -174,6 +176,7 @@ void moveDown()
             {
                 gameBoard[i+1][j] *= 2;
                 clearBlock(i, j);
+                score += gameBoard[i+1][j];
             }
         }
         for (int i = 2; i >= 0; i--)
@@ -191,6 +194,7 @@ void moveDown()
             {
                 gameBoard[i+1][j] *= 2;
                 clearBlock(i, j);
+                score += gameBoard[i+1][j];
             }
         }
     }
