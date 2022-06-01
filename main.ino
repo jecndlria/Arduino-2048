@@ -38,6 +38,7 @@ void setup()
     gameBoardDebug();
     drawBoard();
     pinMode(8, INPUT);
+    printLoss();
     /*
     tasks[i].state = INIT0;
     tasks[i].period = 500;
@@ -68,6 +69,6 @@ void loop()
     //sevenSegmentTimerTest();
     //testGestureSensor();
     //testScreen();
-    if (digitalRead(8) == LOW) { checkMove(); sevseg.blank();}
-    else { sevseg.setNumber(score); sevseg.refreshDisplay();}
+    //if (digitalRead(8) == LOW) { checkMove(); sevseg.blank();}
+    //else { sevseg.setNumber(score); sevseg.refreshDisplay();}
 }

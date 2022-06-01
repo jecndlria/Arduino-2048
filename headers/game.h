@@ -299,10 +299,22 @@ void checkMove()
 
 void printWin()
 {
-
+    tft.fillScreen(ST7735_GREEN);
+    tft.setCursor(32, 32);
+    tft.setTextColor(ST7735_WHITE);
+    tft.setTextSize(4);
+    tft.println("You");
+    tft.setCursor(28, 64);
+    tft.println("Win!");
 }
 void printLoss()
 {
-
+    tft.fillScreen(ST7735_BLACK);
+    tft.setCursor(32, 32);
+    tft.setTextColor(ST7735_WHITE);
+    tft.setTextSize(4);
+    tft.println("You");
+    tft.setCursor(24,64);
+    tft.println("Lose");
 }
 #endif
