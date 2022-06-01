@@ -112,8 +112,8 @@ void populateBoard()
         randomRow = random(0, 4);
         randomColumn = random(0, 4);
     }
-    uint8_t coinflip = random(0, 2);
-    gameBoard[randomRow][randomColumn] = coinflip ? 4 : 2;
+    uint8_t oneInTen = random(0, 10);
+    gameBoard[randomRow][randomColumn] = oneInTen ? 2 : 4;
 }
 
 int findFurthestUp(int j)
