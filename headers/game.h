@@ -15,6 +15,7 @@ int gameBoard[4][4] =
 
 int score = 0;
 bool populateBoardFlag = false;
+bool gameWon = false;
 
 void swap(int &a, int &b)
 {
@@ -51,6 +52,42 @@ int logBase2(int x)
     else return 0;
 }
 
+
+bool isFull()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            if (gameBoard[i][j] == 0) return false;
+        }
+    }
+    return true;
+}
+bool checkLoss()
+{
+    if (!isFull()) return false;
+    for (int i = 1; i < 3; i++)
+    {
+        for (int j = 1; j < 3; j++)
+        {
+            if (gameBoard[i][j] == gameBoard[i-1][j] ||
+                gameBoard[i][j] == gameBoard[i+1][j] ||
+                gameBoard[i][j] == gameBoard[i][j-1] ||
+                gameBoard[i][j] == gameBoard[i][j+1]) 
+            return false;
+        }
+    }
+    if (gameBoard[0][0] == gameBoard[0][1]) return false;
+    if (gameBoard[0][0] == gameBoard[1][0]) return false;
+    if (gameBoard[0][3] == gameBoard[0][2]) return false;
+    if (gameBoard[0][3] == gameBoard[1][3]) return false;
+    if (gameBoard[3][0] == gameBoard[2][0]) return false;
+    if (gameBoard[3][0] == gameBoard[3][1]) return false;
+    if (gameBoard[3][3] == gameBoard[3][2]) return false;
+    if (gameBoard[3][3] == gameBoard[2][3]) return false;
+    return true;
+}
 void resetGame()
 {
     for (int i = 0; i < 4; i++)
@@ -105,15 +142,17 @@ void drawBoard()
 
 void populateBoard()
 {
+    bool boardFull = isFull();
+    if (boardFull) return;
     uint8_t randomRow = random(0, 4);
     uint8_t randomColumn = random(0, 4);
-    while (gameBoard[randomRow][randomColumn] != 0) 
+    while (boardFull && gameBoard[randomRow][randomColumn] != 0) 
     {
         randomRow = random(0, 4);
         randomColumn = random(0, 4);
     }
     uint8_t oneInTen = random(0, 10);
-    gameBoard[randomRow][randomColumn] = oneInTen ? 2 : 4;
+    if (!boardFull) gameBoard[randomRow][randomColumn] = oneInTen ? 2 : 4;
 }
 
 int findFurthestUp(int j)
@@ -135,6 +174,7 @@ void moveUp()
                 gameBoard[i-1][j] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i-1][j];
+                if (gameBoard[i-1][j] == 2048) gameWon = true;
             }
         }
         for (int i = 1; i < 4; i++)
@@ -153,6 +193,7 @@ void moveUp()
                 gameBoard[i-1][j] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i-1][j];
+                if (gameBoard[i-1][j] == 2048) gameWon = true;
             }
         }
     }
@@ -178,6 +219,7 @@ void moveDown()
                 gameBoard[i+1][j] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i+1][j];
+                if (gameBoard[i+1][j] == 2048) gameWon = true;
             }
         }
         for (int i = 2; i >= 0; i--)
@@ -196,6 +238,7 @@ void moveDown()
                 gameBoard[i+1][j] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i+1][j];
+                if (gameBoard[i+1][j] == 2048) gameWon = true;
             }
         }
     }
@@ -221,6 +264,7 @@ void moveLeft()
                 gameBoard[i][j-1] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i][j-1]; 
+                if (gameBoard[i][j-1] == 2048) gameWon = true;
             }
         }
         for (int j = 1; j < 4; j++)
@@ -239,6 +283,7 @@ void moveLeft()
                 gameBoard[i][j-1] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i][j-1]; 
+                if (gameBoard[i][j-1] == 2048) gameWon = true;
             }
         }
     }
@@ -264,6 +309,7 @@ void moveRight()
                 gameBoard[i][j+1] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i][j+1];
+                if (gameBoard[i][j+1] == 2048) gameWon = true;
             }
         }
         for (int j = 2; j >= 0; j--)
@@ -282,6 +328,7 @@ void moveRight()
                 gameBoard[i][j+1] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i][j+1];
+                if (gameBoard[i][j+1] == 2048) gameWon = true;
             }
         }
     }

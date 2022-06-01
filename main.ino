@@ -29,16 +29,13 @@ void setup()
 {
     Serial.begin(9600);
     randomSeed(analogRead(0));
-    //initializeScreen();
     initializeSevenSegmentDisplay();   
     initializeScreen();
-    //testScreen();
     initializeGestureSensor();
     initializeGame();
     gameBoardDebug();
     drawBoard();
     pinMode(8, INPUT);
-    printLoss();
     /*
     tasks[i].state = INIT0;
     tasks[i].period = 500;
@@ -51,12 +48,11 @@ void setup()
     tasks[i].TickFct = &SM2_Tick;
     */
 
-    //sevseg.setNumber(random(0, 100));
 }
 void loop()
 {
     /*
-
+ 
     unsigned char i;
     for (i = 0; i < tasksNum; ++i) {
         if ( (millis() - tasks[i].elapsedTime) >= tasks[i].period) {
@@ -66,9 +62,6 @@ void loop()
         }
     }
     */
-    //sevenSegmentTimerTest();
-    //testGestureSensor();
-    //testScreen();
-    //if (digitalRead(8) == LOW) { checkMove(); sevseg.blank();}
-    //else { sevseg.setNumber(score); sevseg.refreshDisplay();}
+    if (digitalRead(8) == LOW) { checkMove(); sevseg.blank(); if (gameWon) { printWin(); delay(10000);}}
+    else { sevseg.setNumber(score); sevseg.refreshDisplay();}
 }
