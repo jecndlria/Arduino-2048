@@ -28,3 +28,4 @@ This is a single player game that is controlled by the joystick. The game begins
 ## Demo Videos
 
 [First Demo Video (May 20, 2022)](https://youtu.be/FuY_zUGu9N4)
+[Second Demo Video (May 31, 2022)](https://youtu.be/tMXM2VyQgSY)
