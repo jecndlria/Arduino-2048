@@ -112,7 +112,8 @@ void populateBoard()
         randomRow = random(0, 4);
         randomColumn = random(0, 4);
     }
-    gameBoard[randomRow][randomColumn] = 2;
+    uint8_t coinflip = random(0, 2);
+    gameBoard[randomRow][randomColumn] = coinflip ? 4 : 2;
 }
 
 int findFurthestUp(int j)
@@ -243,7 +244,6 @@ void moveLeft()
     }
 }
 
-
 int findFurthestRight(int i)
 {
     for (int j = 3; j >= 0; j--)
@@ -295,5 +295,14 @@ void checkMove()
     if (gesture == APDS9960_DOWN) {Serial.println("DOWN"); moveDown(); populateBoard(); drawBoard();  /*gameBoardDebug();*/}
     if (gesture == APDS9960_LEFT) {Serial.println("LEFT"); moveLeft(); populateBoard(); drawBoard(); /*gameBoardDebug();*/ }
     if (gesture == APDS9960_RIGHT) {Serial.println("RIGHT"); moveRight(); populateBoard(); drawBoard(); /*gameBoardDebug();*/}
+}
+
+void printWin()
+{
+
+}
+void printLoss()
+{
+
 }
 #endif
