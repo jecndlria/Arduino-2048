@@ -7,7 +7,6 @@
 //void initializeGame();                  // DEFINED IN game.ino
 //void gameBoardDebug();                  // DEFINED IN game.ino
 #include "headers/button.h"
-#include "headers/buzzer.h"
 #include "headers/eeprom.h"
 #include "headers/game.h"
 #include "headers/gesture.h"
