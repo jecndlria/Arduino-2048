@@ -4,7 +4,6 @@
 #include "gesture.h"
 #include "shiftregister_4digit7seg.h"
 
-//Adafruit_ST7735 tft = Adafruit_ST7735(LCD_CS, LCD_DCA0, LCD_SDA, LCD_SCK, LCD_RESET);
 int gameBoard[4][4] = 
 {
     {0, 0, 0, 0},
@@ -97,6 +96,7 @@ void resetGame()
             gameBoard[i][j] = 0;
         }
     }
+    score = 0;
 }
 
 void initializeGame()
@@ -143,10 +143,11 @@ void drawBoard()
 void populateBoard()
 {
     bool boardFull = isFull();
-    if (boardFull) return;
+    if (!populateBoardFlag || boardFull) return;
+    populateBoardFlag = false;
     uint8_t randomRow = random(0, 4);
     uint8_t randomColumn = random(0, 4);
-    while (boardFull && gameBoard[randomRow][randomColumn] != 0) 
+    while (!boardFull && gameBoard[randomRow][randomColumn] != 0) 
     {
         randomRow = random(0, 4);
         randomColumn = random(0, 4);
@@ -169,7 +170,7 @@ void moveUp()
     {
         for (int i = 1; i < 4; i++)
         {
-            if (gameBoard[i][j] == gameBoard[i-1][j])
+            if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i-1][j])
             {
                 gameBoard[i-1][j] *= 2;
                 clearBlock(i, j);
@@ -184,16 +185,18 @@ void moveUp()
             {
                 swap(gameBoard[i][j], gameBoard[k++][j]);
                 clearBlock(i, j);
+                populateBoardFlag = true;
             }
         }
         for (int i = 1; i < 4; i++)
         {
-            if (gameBoard[i][j] == gameBoard[i-1][j])
+            if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i-1][j])
             {
                 gameBoard[i-1][j] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i-1][j];
                 if (gameBoard[i-1][j] == 2048) gameWon = true;
+                populateBoardFlag = true;
             }
         }
     }
@@ -214,7 +217,7 @@ void moveDown()
     {
         for (int i = 2; i >= 0; i--)
         {
-            if (gameBoard[i][j] == gameBoard[i+1][j])
+            if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i+1][j])
             {
                 gameBoard[i+1][j] *= 2;
                 clearBlock(i, j);
@@ -229,16 +232,18 @@ void moveDown()
             {
                 swap(gameBoard[i][j], gameBoard[k--][j]);
                 clearBlock(i, j);
+                populateBoardFlag = true;
             }
         }
         for (int i = 2; i >= 0; i--)
         {
-            if (gameBoard[i][j] == gameBoard[i+1][j])
+            if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i+1][j])
             {
                 gameBoard[i+1][j] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i+1][j];
                 if (gameBoard[i+1][j] == 2048) gameWon = true;
+                populateBoardFlag = true;
             }
         }
     }
@@ -259,7 +264,7 @@ void moveLeft()
     {
         for (int j = 1; j < 4; j++)
         {
-            if (gameBoard[i][j] == gameBoard[i][j-1])
+            if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i][j-1])
             {
                 gameBoard[i][j-1] *= 2;
                 clearBlock(i, j);
@@ -274,16 +279,18 @@ void moveLeft()
             {
                 swap(gameBoard[i][j], gameBoard[i][k++]);
                 clearBlock(i, j);
+                populateBoardFlag = true;
             }
         }
         for (int j = 1; j < 4; j++)
         {
-            if (gameBoard[i][j] == gameBoard[i][j-1])
+            if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i][j-1])
             {
                 gameBoard[i][j-1] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i][j-1]; 
                 if (gameBoard[i][j-1] == 2048) gameWon = true;
+                populateBoardFlag = true;
             }
         }
     }
@@ -304,7 +311,7 @@ void moveRight()
     {
         for (int j = 2; j >= 0; j--)
         {
-            if (gameBoard[i][j] == gameBoard[i][j+1])
+            if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i][j+1])
             {
                 gameBoard[i][j+1] *= 2;
                 clearBlock(i, j);
@@ -319,16 +326,18 @@ void moveRight()
             {
                 swap(gameBoard[i][j], gameBoard[i][k--]);
                 clearBlock(i, j);
+                populateBoardFlag = true;
             }
         }
         for (int j = 2; j >= 0; j--)
         {
-            if (gameBoard[i][j] == gameBoard[i][j+1])
+            if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i][j+1])
             {
                 gameBoard[i][j+1] *= 2;
                 clearBlock(i, j);
                 score += gameBoard[i][j+1];
                 if (gameBoard[i][j+1] == 2048) gameWon = true;
+                populateBoardFlag = true;
             }
         }
     }

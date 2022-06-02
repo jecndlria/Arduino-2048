@@ -14,6 +14,7 @@
 #include "headers/joystick.h"
 #include "headers/lcd.h"
 #include "headers/shiftregister_4digit7seg.h"
+
 typedef struct task {
   int state;
   unsigned long period;
@@ -28,14 +29,20 @@ task tasks[tasksNum];
 void setup()
 {
     Serial.begin(9600);
+    EEPROM.begin();
     randomSeed(analogRead(0));
     initializeSevenSegmentDisplay();   
     initializeScreen();
     initializeGestureSensor();
-    initializeGame();
+    // BRING BACK LATER! initializeGame();
     gameBoardDebug();
     drawBoard();
     pinMode(8, INPUT);
+    pinMode(9, INPUT);
+    pinMode(10, INPUT);
+    //storeGameBoard();
+    loadGameBoard();
+    drawBoard();
     /*
     tasks[i].state = INIT0;
     tasks[i].period = 500;
@@ -64,4 +71,5 @@ void loop()
     */
     if (digitalRead(8) == LOW) { checkMove(); sevseg.blank(); if (gameWon) { printWin(); delay(10000);}}
     else { sevseg.setNumber(score); sevseg.refreshDisplay();}
+    if (digitalRead(9) == HIGH) {resetGame(); initializeGame(); drawBoard(); score = 0;}
 }
