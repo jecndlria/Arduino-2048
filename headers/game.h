@@ -101,6 +101,7 @@ void resetGame()
 
 void initializeGame()
 {
+    resetGame();
     int coinflipLeft = random(0, 2);
     int randomLeftX = random(0, 2);
     int randomLeftY = random(0, 2);
@@ -111,6 +112,7 @@ void initializeGame()
 
     gameBoard[randomLeftX][randomLeftY] = coinflipLeft ? 4 : 2;
     gameBoard[randomRightX][randomRightY] = coinflipRight ? 4 : 2;
+    score = 0;
 }
 
 void gameBoardDebug()
