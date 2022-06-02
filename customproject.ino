@@ -26,6 +26,8 @@ int buttonTick(int state)
 {
     switch(state)
     {
+        default:
+            state = BUTTON_INIT;
         case BUTTON_INIT:
             Serial.println("Save button: ");
             Serial.println(digitalRead(SAVEBUTTON));
@@ -48,6 +50,7 @@ int buttonTick(int state)
                 buttonHeld = true;
                 state = SCORE;
             }
+            else state = BUTTON_INIT;
             Serial.println("State: BUTTON_INIT");
             break;
         case SAVE:
@@ -75,13 +78,11 @@ int buttonTick(int state)
         case SAVE:
             storeGameBoard();
             Serial.println("State: SAVE");
-            state = BUTTON_INIT;
             break;
         case RESET:
             initializeGame();
             drawBoard();
             Serial.println("State: RESET");
-            state = BUTTON_INIT;
             break;
         case SCORE:
             sevseg.setNumber(score);
