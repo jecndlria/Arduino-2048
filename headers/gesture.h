@@ -15,6 +15,7 @@ void initializeGestureSensor()
     apds.enableGesture(true);
 }
 
+/*
 void testGestureSensor()
 {
     uint8_t gesture = apds.readGesture();
@@ -23,4 +24,5 @@ void testGestureSensor()
     if(gesture == APDS9960_LEFT) Serial.println("LEFT\n");
     if(gesture == APDS9960_RIGHT) Serial.println("RIGHT\n");
 }
+*/
 #endif

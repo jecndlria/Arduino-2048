@@ -55,6 +55,7 @@ void initializeScreen()
   tft.fillScreen(colorHelper(COLOR_2048_0));
   tft.setTextColor(ST7735_BLACK);
 }
+/*
 void testScreen()
 {
     //tft.fillScreen(ST7735_BLACK);
@@ -95,4 +96,5 @@ void testScreen()
     tft.print("2048");
     tft.fillRect(96, 64, 32, 32, colorLookupTable[0]);
 }
+*/
 #endif

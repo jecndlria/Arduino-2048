@@ -37,7 +37,7 @@ void initializeSevenSegmentDisplay()
   sevseg.setBrightness(50);
   sevseg.setNumber(2048);
 }
-
+/*
 void sevenSegmentTimerTest()
 {
 
@@ -51,4 +51,5 @@ void sevenSegmentTimerTest()
     sevenSegmentTimerDelayTest++;
   }
 }
+*/
 #endif
