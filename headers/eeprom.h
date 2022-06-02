@@ -19,7 +19,6 @@ void storeGameBoard()
     }
 }
 
-// START FROM ADDRESS 1!
 void loadGameBoard()
 {
     int address = 0;
