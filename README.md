@@ -22,7 +22,7 @@ This is a single player game that is controlled by the joystick. The game begins
 
 * Two 74HC595 shift registers, which will be used to control the 4-digit seven segment display that shows the current score.
 * The onboard Arduino UNO EEPROM, which will save the game/store the high score while the system is off.
-* An Adafruit APDS9960 Gesture Sensor, which will be used as an additional mode to give input to the game.
+* An Adafruit APDS9960 Gesture Sensor, which will be used to give input to the game.
 * ST7735S 1.44" 128x128 LCD Display Screen
 
 ## Demo Videos
