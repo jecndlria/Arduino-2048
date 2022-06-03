@@ -25,7 +25,7 @@ bool buttonHeld = false;
 int buttonTick(int state)
 {
     //Serial.println("value of state: ");
-    Serial.println(state);
+    //Serial.println(state);
     switch(state)
     {
         case BUTTON_INIT:
@@ -204,6 +204,8 @@ void loop()
     unsigned char i;
     for (i = 0; i < tasksNum; ++i) {
         if ( (millis() - tasks[i].elapsedTime) >= tasks[i].period) {
+            Serial.println("value of tasks[i].state"); 
+            Serial.println(tasks[i].state);
             tasks[i].state = tasks[i].TickFct(tasks[i].state);
             tasks[i].elapsedTime = millis(); // Last time this task was ran
         }
