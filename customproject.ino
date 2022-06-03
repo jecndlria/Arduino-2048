@@ -117,6 +117,7 @@ int gameTick(int state)
         case READ_INPUT:
             checkMove();
             noTone(BUZZER);
+            sevseg.blank();
             break;
         case WIN:
             if (!printFlag) 
