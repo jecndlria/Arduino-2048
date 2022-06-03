@@ -3,13 +3,30 @@
 #include "lcd.h"
 #include "gesture.h"
 #include "shiftregister_4digit7seg.h"
-
+#include "buzzer.h"
 int gameBoard[4][4] = 
-{
-    {0, 0, 0, 0},
-    {0, 0, 0, 0},
-    {0, 0, 0, 0},
-    {0, 0, 0, 0}
+{ 
+    //LOSS DEMO
+    /*
+    {2, 4, 8, 0},
+    {32, 64, 128, 256},
+    {512, 256, 512, 2},
+    {1024, 4, 8, 16}
+    */
+
+   
+   {0, 0, 0, 0},
+   {0, 0, 0, 0},
+   {0, 0, 0, 0},
+   {0, 0, 0, 0}
+    
+   // WIN DEMO
+   /*
+   {1024, 0, 0, 1024},
+   {0, 0, 0, 0},
+   {0, 0, 0, 0},
+   {1024, 0, 0, 1024}
+  */ 
 };
 
 int score = 0;
@@ -131,6 +148,8 @@ void gameBoardDebug()
 
 void drawBoard()
 {
+    tft.setTextColor(ST7735_BLACK);
+    tft.setTextSize(1);
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -175,6 +194,7 @@ void moveUp()
             if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i-1][j])
             {
                 gameBoard[i-1][j] *= 2;
+                tone(BUZZER, toneLookupTable[logBase2(gameBoard[i][j])]);
                 clearBlock(i, j);
                 score += gameBoard[i-1][j];
                 if (gameBoard[i-1][j] == 2048) gameWon = true;
@@ -195,6 +215,7 @@ void moveUp()
             if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i-1][j])
             {
                 gameBoard[i-1][j] *= 2;
+                tone(BUZZER, toneLookupTable[logBase2(gameBoard[i][j])]);
                 clearBlock(i, j);
                 score += gameBoard[i-1][j];
                 if (gameBoard[i-1][j] == 2048) gameWon = true;
@@ -222,6 +243,7 @@ void moveDown()
             if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i+1][j])
             {
                 gameBoard[i+1][j] *= 2;
+                tone(BUZZER, toneLookupTable[logBase2(gameBoard[i][j])]);
                 clearBlock(i, j);
                 score += gameBoard[i+1][j];
                 if (gameBoard[i+1][j] == 2048) gameWon = true;
@@ -242,6 +264,7 @@ void moveDown()
             if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i+1][j])
             {
                 gameBoard[i+1][j] *= 2;
+                tone(BUZZER, toneLookupTable[logBase2(gameBoard[i][j])]);
                 clearBlock(i, j);
                 score += gameBoard[i+1][j];
                 if (gameBoard[i+1][j] == 2048) gameWon = true;
@@ -269,6 +292,7 @@ void moveLeft()
             if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i][j-1])
             {
                 gameBoard[i][j-1] *= 2;
+                tone(BUZZER, toneLookupTable[logBase2(gameBoard[i][j])]);
                 clearBlock(i, j);
                 score += gameBoard[i][j-1]; 
                 if (gameBoard[i][j-1] == 2048) gameWon = true;
@@ -289,6 +313,7 @@ void moveLeft()
             if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i][j-1])
             {
                 gameBoard[i][j-1] *= 2;
+                tone(BUZZER, toneLookupTable[logBase2(gameBoard[i][j])]);
                 clearBlock(i, j);
                 score += gameBoard[i][j-1]; 
                 if (gameBoard[i][j-1] == 2048) gameWon = true;
@@ -316,6 +341,7 @@ void moveRight()
             if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i][j+1])
             {
                 gameBoard[i][j+1] *= 2;
+                tone(BUZZER, toneLookupTable[logBase2(gameBoard[i][j])]);
                 clearBlock(i, j);
                 score += gameBoard[i][j+1];
                 if (gameBoard[i][j+1] == 2048) gameWon = true;
@@ -336,6 +362,7 @@ void moveRight()
             if (gameBoard[i][j] != 0 && gameBoard[i][j] == gameBoard[i][j+1])
             {
                 gameBoard[i][j+1] *= 2;
+                tone(BUZZER, toneLookupTable[logBase2(gameBoard[i][j])]);
                 clearBlock(i, j);
                 score += gameBoard[i][j+1];
                 if (gameBoard[i][j+1] == 2048) gameWon = true;
@@ -374,5 +401,21 @@ void printLoss()
     tft.println("You");
     tft.setCursor(24,64);
     tft.println("Lose");
+}
+void songWin()
+{
+    for (uint8_t i = 0; i < 12; i++)
+    {
+        tone(BUZZER, toneLookupTable[i]);
+        if (i == 11) i = 0;
+    }
+}
+void songLoss()
+{
+    for (uint8_t i = 11; i > 0; i--)
+    {
+        tone(BUZZER, toneLookupTable[i]);
+        if (i == 1) i = 11;
+    }
 }
 #endif

@@ -34,7 +34,7 @@ void initializeSevenSegmentDisplay()
   updateWithDelays, leadingZeros, disableDecPoint);
   sevenSegmentTimerTestValue = 0;
   sevenSegmentTimerDelayTest = 0;
-  sevseg.setBrightness(50);
+  sevseg.setBrightness(25);
 }
 /*
 void sevenSegmentTimerTest()

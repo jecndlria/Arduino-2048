@@ -17,6 +17,11 @@ void storeGameBoard()
             EEPROM.write(address, low);
         }
     }
+    address += 1;
+    uint8_t highScore = score >> 8;
+    uint8_t lowScore = score & 0xFF;
+    EEPROM.write(address++, highScore);
+    EEPROM.write(address, lowScore);
 }
 
 void loadGameBoard()
@@ -37,5 +42,13 @@ void loadGameBoard()
             gameBoard[i][j] = data; 
         }
     }
+    address += 1;
+    uint8_t highScore;
+    uint8_t lowScore;
+    highScore = EEPROM.read(address++);
+    lowScore = EEPROM.read(address);
+    score = 0x00;
+    score = (highScore << 8) & 0xFF00;
+    score = score | lowScore;
 }
 #endif
